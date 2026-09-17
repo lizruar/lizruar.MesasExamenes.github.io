@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscripción a Mesas de Examen — E.E.T.P. N° 462</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#6B1E2B;
+    --navy-light:#8C2E3D;
+    --navy-dark:#47141D;
+    --gold:#888E99;
+    --gold-light:#D2D5DB;
+    --bg:#F5F6F2;
+    --surface:#FFFFFF;
+    --text:#1C2130;
+    --text-muted:#5B6272;
+    --border:#E1E4EA;
+    --success:#2F7D5A;
+    --success-bg:#E8F3EC;
+    --danger:#B03A3A;
+    --danger-bg:#FBEAEA;
+    --warn:#5B6272;
+    --warn-bg:#EDEEF1;
+    --radius:12px;
+    --shadow-sm:0 1px 2px rgba(20,31,56,0.04), 0 1px 1px rgba(20,31,56,0.03);
+    --shadow-md:0 8px 22px rgba(20,31,56,0.08);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  .topbar{
+    background:linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);color:#fff;
+    padding:26px 20px 34px 20px;text-align:center;
+  }
+  .topbar .mark{width:46px;height:46px;margin:0 auto 12px auto;border:2px solid var(--gold-light);border-radius:10px;
+    display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;color:var(--gold-light);}
+  .topbar h1{font-size:19px;color:#fff;}
+  .topbar p{margin:6px 0 0 0;font-size:12.5px;color:rgba(255,255,255,0.65);}
+
+  .wrap{max-width:560px;margin:-20px auto 0 auto;padding:0 16px 40px 16px;}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px;box-shadow:var(--shadow-md);}
+  .card h3{font-size:16px;margin-bottom:4px;}
+  .card .sub{color:var(--text-muted);font-size:13px;margin-bottom:16px;}
+
+  label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.03em;}
+  input[type=text],select{
+    width:100%;padding:12px 13px;border:1px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;
+    font-size:15px;background:#FBFBFA;color:var(--text);
+  }
+  input:focus,select:focus{outline:none;border-color:var(--navy-light);background:#fff;box-shadow:0 0 0 3px rgba(107,30,43,0.1);}
+
+  button{font-family:'Inter',sans-serif;font-weight:600;font-size:14px;cursor:pointer;border-radius:8px;border:none;padding:12px 18px;width:100%;transition:opacity .15s, transform .1s;}
+  button:active{transform:scale(0.98);}
+  .btn-primary{background:var(--navy);color:#fff;}
+  .btn-primary:hover{background:var(--navy-light);}
+  .btn-danger{background:var(--danger-bg);color:var(--danger);}
+  .btn-danger:hover{opacity:0.85;}
+  .btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border);width:auto;padding:8px 14px;font-size:12.5px;}
+
+  .alumno-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;}
+  .alumno-banner .who{font-size:14.5px;}
+  .alumno-banner .who b{font-family:'Fraunces',serif;font-size:17px;display:block;}
+  .alumno-banner .who span{color:var(--text-muted);font-size:12.5px;}
+
+  .divider-label{display:flex;align-items:center;gap:10px;margin:22px 0 14px 0;color:var(--text-muted);font-size:11.5px;text-transform:uppercase;letter-spacing:0.05em;}
+  .divider-label::after{content:"";flex:1;height:1px;background:var(--border);}
+
+  .filtro-curso{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .filtro-curso label{margin:0;white-space:nowrap;}
+  .filtro-curso select{width:auto;flex:1;}
+
+  .mesa-card{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;}
+  .mesa-card .materia{font-family:'Fraunces',serif;font-size:15.5px;font-weight:600;}
+  .mesa-card .datos{color:var(--text-muted);font-size:12.5px;margin-top:6px;line-height:1.5;}
+  .mesa-actions{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .mesa-actions .fila{display:flex;gap:8px;align-items:center;}
+  .mesa-actions select{width:auto;flex:1;}
+  .badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:600;}
+  .badge-ok{background:var(--success-bg);color:var(--success);}
+  .badge-libre{background:var(--warn-bg);color:var(--warn);}
+  .badge-aprobado{background:var(--success-bg);color:var(--success);}
+  .badge-desaprobado{background:var(--danger-bg);color:var(--danger);}
+  .badge-pendiente{background:#EEF0F4;color:var(--text-muted);}
+
+  .empty-state{text-align:center;padding:34px 16px;color:var(--text-muted);font-size:13.5px;}
+  .msg-error{background:var(--danger-bg);color:var(--danger);padding:11px 14px;border-radius:8px;font-size:13px;margin-top:10px;display:none;}
+  .msg-error.show{display:block;}
+  .aviso-fecha{background:var(--warn-bg);color:var(--text-muted);padding:11px 14px;border-radius:8px;font-size:12.5px;margin-bottom:16px;}
+
+  .resultado-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .resultado-card .materia{font-weight:600;font-size:14px;}
+  .resultado-card .turno{color:var(--text-muted);font-size:12px;margin-top:2px;}
+  .resultado-card .nota{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--navy);min-width:30px;text-align:center;}
+
+  #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;
+    font-size:13.5px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,0.18);opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;z-index:999;max-width:90vw;text-align:center;}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  #toast.danger{background:var(--danger);}
+
+  #viewLogin{display:block;}
+  #viewPortal{display:none;}
+
+  .tabs{display:flex;gap:8px;margin-bottom:14px;}
+  .tab-btn{flex:1;width:auto;background:var(--surface);color:var(--text-muted);border:1px solid var(--border);padding:11px;border-radius:8px;font-size:13px;}
+  .tab-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  .subtabs{display:flex;gap:8px;margin:22px 0 14px 0;}
+  .subtab-btn{flex:1;width:auto;background:var(--surface);color:var(--text-muted);border:1px solid var(--border);padding:10px;border-radius:8px;font-size:12.5px;font-weight:600;}
+  .subtab-btn.active{background:var(--navy-light);color:#fff;border-color:var(--navy-light);}
+  .subview{display:none;}
+  .subview.active{display:block;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="mark">462</div>
+  <h1>E.E.T.P. N° 462</h1>
+  <p>Escuela de Educación Técnico Profesional — Inscripción a mesas de examen</p>
+</div>
+
+<div class="wrap">
+
+  <!-- ===== LOGIN ===== -->
+  <div id="viewLogin">
+    <div class="tabs">
+      <button class="tab-btn active" id="tabBtnIngresar" onclick="mostrarTab('ingresar')">Ya estoy registrado</button>
+      <button class="tab-btn" id="tabBtnRegistro" onclick="mostrarTab('registro')">Registrarme</button>
+    </div>
+
+    <div class="card" id="cardIngresar">
+      <h3>Ingresá tu DNI</h3>
+      <p class="sub">Usamos tu DNI para mostrarte tus datos y las mesas disponibles.</p>
+      <label>Número de DNI</label>
+      <input type="text" id="loginDni" placeholder="Ej: 41234567" inputmode="numeric">
+      <div style="margin-top:14px"><button class="btn-primary" onclick="ingresar()">Ingresar</button></div>
+      <div class="msg-error" id="loginError">No encontramos ese DNI registrado. Probá registrarte en la otra pestaña.</div>
+    </div>
+
+    <div class="card" id="cardRegistro" style="display:none">
+      <h3>Registrarme por primera vez</h3>
+      <p class="sub">Completá tus datos para poder inscribirte a las mesas de examen.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label>Apellido</label><input type="text" id="regApellido"></div>
+        <div><label>Nombre</label><input type="text" id="regNombre"></div>
+      </div>
+      <div style="margin-top:12px"><label>DNI</label><input type="text" id="regDni" inputmode="numeric" placeholder="Ej: 41234567"></div>
+      <div style="margin-top:12px">
+        <label>Curso / Año</label>
+        <select id="regCurso">
+          <option value="1ro">1er Año</option>
+          <option value="2do">2do Año</option>
+          <option value="3er">3er Año</option>
+          <option value="4to">4to Año</option>
+          <option value="5to">5to Año</option>
+          <option value="6to">6to Año</option>
+        </select>
+      </div>
+      <div style="margin-top:12px"><label>Correo electrónico</label><input type="text" id="regEmail" placeholder="tuemail@ejemplo.com"></div>
+      <div style="margin-top:12px"><label>Teléfono</label><input type="text" id="regTelefono" placeholder="Ej: 351 555-1234" inputmode="tel"></div>
+      <div style="margin-top:16px"><button class="btn-primary" onclick="registrarme()">Registrarme e ingresar</button></div>
+      <div class="msg-error" id="registroError"></div>
+    </div>
+  </div>
+
+  <!-- ===== PORTAL ===== -->
+  <div id="viewPortal">
+    <div class="card">
+      <div class="alumno-banner">
+        <div class="who">
+          <b id="alumnoNombre">—</b>
+          <span id="alumnoDatos"></span>
+        </div>
+        <button class="btn-ghost" onclick="salir()">Salir</button>
+      </div>
+    </div>
+
+    <div class="subtabs">
+      <button class="subtab-btn active" id="subtabMesas" onclick="mostrarSubtab('mesas')">Inscribirme</button>
+      <button class="subtab-btn" id="subtabNotas" onclick="mostrarSubtab('notas')">Mi nota final</button>
+    </div>
+
+    <!-- ===== SUBVISTA: MESAS ===== -->
+    <div class="subview active" id="subviewMesas">
+      <div class="aviso-fecha">📌 Las fechas y horarios pueden reprogramarse. Ante cualquier duda, confirmá en secretaría o cartelera.</div>
+      <div class="filtro-curso">
+        <label style="margin:0">Curso</label>
+        <select id="filtroCurso" onchange="renderMesas()"></select>
+      </div>
+      <div id="listaMesas"></div>
+    </div>
+
+    <!-- ===== SUBVISTA: NOTAS ===== -->
+    <div class="subview" id="subviewNotas">
+      <div class="aviso-fecha">Acá vas a ver tu nota final apenas la escuela la cargue, una vez rendida la mesa.</div>
+      <div id="listaNotas"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   MESAS DE EXAMEN — SEPTIEMBRE 2026 — E.E.T.P. N° 462
+   Cada materia tiene un array "turnos" con día y horario.
+   Si la escuela ofrece más de una opción para una materia, se
+   agregan más objetos {fecha, hora} a ese array y el alumno los
+   va a poder elegir en un desplegable al inscribirse.
+   ============================================================ */
+const cursosOrden = ['1ro','2do','3er','4to','5to','6to'];
+const cursosNombre = { '1ro':'1er Año', '2do':'2do Año', '3er':'3er Año', '4to':'4to Año', '5to':'5to Año', '6to':'6to Año' };
+
+const materiasData = [
+  // 1er Año
+  { id:'1ro-matematica', curso:'1ro', materia:'Matemática', docentes:'Natalia Scarpin, Andrea Ramel, Gaston Arroyo', turnos:[{fecha:'2026-08-31',hora:'07:30'}] },
+  { id:'1ro-geografia', curso:'1ro', materia:'Geografía', docentes:'Ivana Zorzon, Andrea Ramel, Griselda Castillo', turnos:[{fecha:'2026-08-31',hora:'09:40'}] },
+  { id:'1ro-lengua', curso:'1ro', materia:'Lengua y Literatura', docentes:'Viviana Coral, Osvaldo Alvarez, William Brac', turnos:[{fecha:'2026-09-01',hora:'07:30'}] },
+  { id:'1ro-dibujo', curso:'1ro', materia:'Dibujo Técnico', docentes:'Bustamante Gerardo, Patricia Raffin, Daniela Castillo', turnos:[{fecha:'2026-09-03',hora:'09:00'}] },
+  { id:'1ro-biologia', curso:'1ro', materia:'Biología', docentes:'Eliana Ibarra, Vanesa Forlin, Nelcy Cañete', turnos:[{fecha:'2026-09-04',hora:'09:00'}] },
+  { id:'1ro-taller', curso:'1ro', materia:'Taller', docentes:'Osvaldo Alvarez, Rebeca Bandeo, Anabella Benitez, Daniela Castillo', turnos:[{fecha:'2026-08-31',hora:'07:30'}] },
+
+  // 2do Año
+  { id:'2do-matematica', curso:'2do', materia:'Matemática', docentes:'Alejandra Braidot, Valeria Gomez, Clara Zapata', turnos:[{fecha:'2026-08-31',hora:'16:00'}] },
+  { id:'2do-historia', curso:'2do', materia:'Historia', docentes:'Fabricia Cattarozzi, Yolanda Robles, Fabrizio S. Dario', turnos:[{fecha:'2026-08-31',hora:'16:30'}] },
+  { id:'2do-edfisica', curso:'2do', materia:'Educación Física', docentes:'Romina Gonzalez, Osvaldo Alvarez, Daniela Castillo', turnos:[{fecha:'2026-09-03',hora:'09:00'}] },
+  { id:'2do-taller', curso:'2do', materia:'Taller', docentes:'Natalia Scarpin, Patricia Raffin, Valeria Ruiz Diaz', turnos:[{fecha:'2026-08-31',hora:'07:30'}] },
+
+  // 3er Año
+  { id:'3er-matematica', curso:'3er', materia:'Matemática', docentes:'Romina Gonzalez, Osvaldo Alvarez, Daniela Castillo', turnos:[{fecha:'2026-08-31',hora:'09:00'}] },
+  { id:'3er-historia', curso:'3er', materia:'Historia', docentes:'Rosa Paulin, Natalia Scarpin, Griselda Castillo', turnos:[{fecha:'2026-09-02',hora:'07:30'}] },
+  { id:'3er-biologia', curso:'3er', materia:'Biología', docentes:'Carina Stechina, Natalia Fernandez, Natalia Scarpin', turnos:[{fecha:'2026-09-03',hora:'09:00'}] },
+  { id:'3er-ingles', curso:'3er', materia:'Lengua Extranjera (inglés)', docentes:'Natalia Scarpin, Patricia Raffin, Valeria Ruiz Diaz', turnos:[{fecha:'2026-09-01',hora:'07:30'}] },
+
+  // 4to Año
+  { id:'4to-fundamentos', curso:'4to', materia:'Fundamentos de Gestión', docentes:'Natalia Scarpin, Patricia Raffin, Valeria Ruiz Diaz', turnos:[{fecha:'2026-09-01',hora:'07:30'}] },
+  { id:'4to-liquidacion', curso:'4to', materia:'Liquidación y Registración de las Remuneraciones', docentes:'Andrea Ramel, Gaston Arroyo, Valeria Ruiz Diaz', turnos:[{fecha:'2026-08-31',hora:'07:30'}] },
+  { id:'4to-economia', curso:'4to', materia:'Economía', docentes:'Selva Esperanza, Andrea Ramel, Marilin Pividori', turnos:[{fecha:'2026-09-02',hora:'09:00'}] },
+  { id:'4to-matematica', curso:'4to', materia:'Matemática', docentes:'Andrea Ramel, Natalia Scarpin', turnos:[{fecha:'2026-09-01',hora:'07:30'}] },
+
+  // 5to Año
+  { id:'5to-marcojuridico', curso:'5to', materia:'Marco Jurídico PP', docentes:'Nadia Sanchez, Mirian Nardelli, Yolanda Robles', turnos:[{fecha:'2026-09-02',hora:'17:30'}] },
+  { id:'5to-procesos', curso:'5to', materia:'Procesos Productivos (Adm/Inform)', docentes:'Nadia Sanchez, Elena Sandrigo, Yolanda Robles', turnos:[{fecha:'2026-09-02',hora:'17:30'}] },
+  { id:'5to-organizacion', curso:'5to', materia:'Organización y Gestión', docentes:'Eric Comba, Vanesa Salame, Diego Castillo', turnos:[{fecha:'2026-09-02',hora:'14:30'}] },
+  { id:'5to-matematica', curso:'5to', materia:'Matemática', docentes:'Natalia Scarpin, Patricia Raffin, Valeria Ruiz Diaz', turnos:[{fecha:'2026-09-01',hora:'07:30'}] },
+  { id:'5to-tallerinf', curso:'5to', materia:'Taller (Inf)', docentes:'Marilin Pividori, Miriam Blanco, Ramel Andrea', turnos:[{fecha:'2026-09-01',hora:'07:30'}] },
+  { id:'5to-derecho', curso:'5to', materia:'Derecho', docentes:'Selva Esperanza, Hugo Benites, Gerardo Castillo', turnos:[{fecha:'2026-09-01',hora:'14:30'}] },
+
+  // 6to Año
+  { id:'6to-gestionfin', curso:'6to', materia:'Gestión Financiera y Fuente de Financiación', docentes:'Eric Comba, Vanesa Salame, Diego Castillo', turnos:[{fecha:'2026-09-02',hora:'16:40'}] },
+  { id:'6to-macroeconomia', curso:'6to', materia:'Macroeconomía', docentes:'Andrea Ramel, Marilin Pividori, Mirian Blanco', turnos:[{fecha:'2026-09-02',hora:'07:30'}] },
+  { id:'6to-programacion', curso:'6to', materia:'Programación II', docentes:'Pablo Longhi, Hugo Benites, Gerardo Castillo', turnos:[{fecha:'2026-09-01',hora:'14:30'}] },
+  { id:'6to-software', curso:'6to', materia:'Software IV', docentes:'Pablo Longhi, Hugo Benites, Gerardo Castillo', turnos:[{fecha:'2026-09-01',hora:'14:30'}] },
+];
+
+/* ============ ALMACENAMIENTO LOCAL (por ahora sin base compartida) ============ */
+function getAlumnos(){ return JSON.parse(localStorage.getItem('portalAlumnos') || '[]'); }
+function setAlumnos(l){ localStorage.setItem('portalAlumnos', JSON.stringify(l)); }
+function getInscripciones(){ return JSON.parse(localStorage.getItem('portalInscripciones') || '[]'); }
+function setInscripciones(l){ localStorage.setItem('portalInscripciones', JSON.stringify(l)); }
+
+let alumnoActual = null;
+
+/* ============ TOAST ============ */
+let toastTimer;
+function toast(msg, tipo){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = tipo==='danger' ? 'show danger' : 'show';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 2600);
+}
+
+/* ============ TABS LOGIN / REGISTRO ============ */
+function mostrarTab(tab){
+  document.getElementById('cardIngresar').style.display = tab==='ingresar' ? 'block' : 'none';
+  document.getElementById('cardRegistro').style.display = tab==='registro' ? 'block' : 'none';
+  document.getElementById('tabBtnIngresar').classList.toggle('active', tab==='ingresar');
+  document.getElementById('tabBtnRegistro').classList.toggle('active', tab==='registro');
+}
+function mostrarSubtab(tab){
+  document.getElementById('subviewMesas').classList.toggle('active', tab==='mesas');
+  document.getElementById('subviewNotas').classList.toggle('active', tab==='notas');
+  document.getElementById('subtabMesas').classList.toggle('active', tab==='mesas');
+  document.getElementById('subtabNotas').classList.toggle('active', tab==='notas');
+  if(tab==='notas') renderNotas();
+}
+
+/* ============ REGISTRO / LOGIN ============ */
+function registrarme(){
+  const apellido = document.getElementById('regApellido').value.trim();
+  const nombre = document.getElementById('regNombre').value.trim();
+  const dni = document.getElementById('regDni').value.trim();
+  const curso = document.getElementById('regCurso').value;
+  const email = document.getElementById('regEmail').value.trim();
+  const telefono = document.getElementById('regTelefono').value.trim();
+  const errorBox = document.getElementById('registroError');
+  errorBox.classList.remove('show');
+
+  if(!apellido || !nombre || !dni){
+    errorBox.textContent = 'Completá apellido, nombre y DNI.';
+    errorBox.classList.add('show');
+    return;
+  }
+  const alumnos = getAlumnos();
+  if(alumnos.find(a=>a.dni===dni)){
+    errorBox.textContent = 'Ya existe un registro con ese DNI. Usá la pestaña "Ya estoy registrado".';
+    errorBox.classList.add('show');
+    return;
+  }
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  const nuevoAlumno = { id, apellido, nombre, dni, curso, email, telefono };
+  alumnos.push(nuevoAlumno);
+  setAlumnos(alumnos);
+  alumnoActual = nuevoAlumno;
+  localStorage.setItem('portalAlumnoDni', dni);
+  mostrarPortal();
+  toast('¡Registro completado!');
+}
+function ingresar(){
+  const dni = document.getElementById('loginDni').value.trim();
+  const errorBox = document.getElementById('loginError');
+  errorBox.classList.remove('show');
+  if(!dni){ toast('Ingresá tu DNI', 'danger'); return; }
+  const alumno = getAlumnos().find(a=>a.dni===dni);
+  if(!alumno){
+    errorBox.classList.add('show');
+    return;
+  }
+  alumnoActual = alumno;
+  localStorage.setItem('portalAlumnoDni', dni);
+  mostrarPortal();
+}
+function salir(){
+  localStorage.removeItem('portalAlumnoDni');
+  alumnoActual = null;
+  document.getElementById('loginDni').value = '';
+  document.getElementById('viewPortal').style.display = 'none';
+  document.getElementById('viewLogin').style.display = 'block';
+  mostrarSubtab('mesas');
+}
+function mostrarPortal(){
+  document.getElementById('viewLogin').style.display = 'none';
+  document.getElementById('viewPortal').style.display = 'block';
+  document.getElementById('alumnoNombre').textContent = `${alumnoActual.apellido}, ${alumnoActual.nombre}`;
+  document.getElementById('alumnoDatos').textContent = `DNI ${alumnoActual.dni} · ${cursosNombre[alumnoActual.curso] || alumnoActual.curso}`;
+  poblarFiltroCurso();
+  renderMesas();
+}
+
+/* ============ FILTRO DE CURSO ============ */
+function poblarFiltroCurso(){
+  const sel = document.getElementById('filtroCurso');
+  sel.innerHTML = cursosOrden.map(c=>`<option value="${c}">${cursosNombre[c]}</option>`).join('');
+  sel.value = alumnoActual.curso;
+}
+
+/* ============ HELPERS DE FECHA ============ */
+function formatearFecha(f){ if(!f) return '—'; const [y,m,d]=f.split('-'); return `${d}/${m}/${y}`; }
+function etiquetaTurno(t){ return `${formatearFecha(t.fecha)} — ${t.hora} hs`; }
+
+/* ============ LISTADO DE MATERIAS / MESAS ============ */
+function renderMesas(){
+  if(!alumnoActual) return;
+  const cont = document.getElementById('listaMesas');
+  const cursoElegido = document.getElementById('filtroCurso').value;
+  const inscripciones = getInscripciones();
+  const lista = materiasData.filter(m=>m.curso===cursoElegido);
+
+  if(lista.length===0){
+    cont.innerHTML = `<div class="card"><div class="empty-state">No hay mesas cargadas para este curso.</div></div>`;
+    return;
+  }
+
+  cont.innerHTML = lista.map(m=>{
+    const inscripcion = inscripciones.find(i=>i.materiaId===m.id && i.alumnoId===alumnoActual.id);
+    const yaInscripto = !!inscripcion;
+    const opcionesTurno = m.turnos.map((t,idx)=>`<option value="${idx}">${etiquetaTurno(t)}</option>`).join('');
+    return `
+      <div class="card mesa-card">
+        <div class="materia">${m.materia}</div>
+        <div class="datos">👨‍🏫 Tribunal: ${m.docentes}</div>
+        ${yaInscripto ? `
+          <div class="mesa-actions">
+            <div class="fila"><span class="badge ${inscripcion.condicion==='Libre'?'badge-libre':'badge-ok'}">Inscripto · ${inscripcion.condicion}</span></div>
+            <div class="datos">📅 ${etiquetaTurno(inscripcion.turno)}</div>
+            <button class="btn-danger" onclick="cancelarInscripcion('${inscripcion.id}')">Cancelar mi inscripción</button>
+          </div>
+        ` : `
+          <div class="mesa-actions">
+            <div class="fila">
+              <select id="turno-${m.id}">${opcionesTurno}</select>
+            </div>
+            <div class="fila">
+              <select id="cond-${m.id}" style="flex:1">
+                <option>Regular</option>
+                <option>Libre</option>
+              </select>
+              <button class="btn-primary" style="width:auto" onclick="inscribirme('${m.id}')">Inscribirme</button>
+            </div>
+          </div>
+        `}
+      </div>
+    `;
+  }).join('');
+}
+
+function inscribirme(materiaId){
+  const inscripciones = getInscripciones();
+  const yaInscripto = inscripciones.find(i=>i.materiaId===materiaId && i.alumnoId===alumnoActual.id);
+  if(yaInscripto){ toast('Ya estás inscripto en esta mesa', 'danger'); return; }
+  const materia = materiasData.find(m=>m.id===materiaId);
+  const turnoIdx = Number(document.getElementById('turno-'+materiaId).value);
+  const turno = materia.turnos[turnoIdx];
+  const condicion = document.getElementById('cond-'+materiaId).value;
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  inscripciones.push({ id, materiaId, alumnoId: alumnoActual.id, condicion, turno, nota:null, fecha: new Date().toISOString() });
+  setInscripciones(inscripciones);
+  toast('¡Te inscribiste correctamente!');
+  renderMesas();
+}
+function cancelarInscripcion(id){
+  if(!confirm('¿Cancelar tu inscripción a esta mesa?')) return;
+  let inscripciones = getInscripciones();
+  inscripciones = inscripciones.filter(i=>i.id!==id);
+  setInscripciones(inscripciones);
+  toast('Inscripción cancelada', 'danger');
+  renderMesas();
+}
+
+/* ============ MI NOTA FINAL ============ */
+function estadoPorNota(nota){
+  if(nota===undefined || nota===null || nota==='') return 'Pendiente';
+  const n = Number(nota);
+  if(isNaN(n)) return 'Pendiente';
+  return n>=6 ? 'Aprobado' : 'Desaprobado';
+}
+function badgeEstado(nota){
+  const estado = estadoPorNota(nota);
+  const clase = estado==='Aprobado' ? 'badge-aprobado' : estado==='Desaprobado' ? 'badge-desaprobado' : 'badge-pendiente';
+  return `<span class="badge ${clase}">${estado}</span>`;
+}
+function renderNotas(){
+  if(!alumnoActual) return;
+  const cont = document.getElementById('listaNotas');
+  const inscripciones = getInscripciones().filter(i=>i.alumnoId===alumnoActual.id);
+  const materiasInscripto = inscripciones.map(i=>({ ...i, materia: materiasData.find(m=>m.id===i.materiaId) })).filter(i=>i.materia);
+
+  if(materiasInscripto.length===0){
+    cont.innerHTML = `<div class="card"><div class="empty-state">Todavía no te inscribiste a ninguna mesa.</div></div>`;
+    return;
+  }
+
+  cont.innerHTML = materiasInscripto.map(i=>`
+    <div class="card resultado-card">
+      <div>
+        <div class="materia">${i.materia.materia}</div>
+        <div class="turno">${etiquetaTurno(i.turno)} · ${i.condicion}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="nota">${i.nota ?? '—'}</div>
+        ${badgeEstado(i.nota)}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ============ INIT: recordar DNI en este dispositivo ============ */
+const dniGuardado = localStorage.getItem('portalAlumnoDni');
+if(dniGuardado){
+  document.getElementById('loginDni').value = dniGuardado;
+  const alumno = getAlumnos().find(a=>a.dni===dniGuardado);
+  if(alumno){ alumnoActual = alumno; mostrarPortal(); }
+}
+</script>
+</body>
+</html>
